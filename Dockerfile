@@ -52,5 +52,12 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 # Set up config file
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# Add ffmpeg from static build
+RUN curl -SL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz \
+    | tar -xJC /tmp/ && \
+    cp /tmp/ffmpeg-*/ff* /usr/bin/ && \
+    cp /tmp/ffmpeg-*/ff* /usr/local/bin/ && \
+	rm -rf /tmp/ffmpeg-*
+
 EXPOSE 1935
 CMD ["nginx", "-g", "daemon off;"]
